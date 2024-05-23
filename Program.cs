@@ -75,7 +75,7 @@ namespace Flow_Control
 
         private struct Input
         {
-            // A struct that holds the keyboard values for different input options.
+            // A struct that holds the string values for different input options.
             public const string exit = "0";
             public const string option1 = "1";
             public const string option2 = "2";
@@ -101,7 +101,7 @@ namespace Flow_Control
                         loop = false;
                         if (age < 5)
                         {
-                            Console.WriteLine("Barn under 5 år gamla går gratis.");
+                            Console.WriteLine("Barn under 5 år gamla går in gratis.");
                             price = 0;
                         }
                         else if (age < 20)
@@ -111,7 +111,7 @@ namespace Flow_Control
                         }
                         else if (age > 100)
                         {
-                            Console.WriteLine("Pensionärer över 100 år gamla går gratis.");
+                            Console.WriteLine("Pensionärer över 100 år gamla går in gratis.");
                             price = 0;
                         }
                         else if (age > 64)
@@ -162,7 +162,7 @@ namespace Flow_Control
             }
             if (totalPrice > 0)
                 Console.WriteLine($"\nDen totala kostnaden för de {groupSize} biobesökarna är {totalPrice}kr.\n");
-            else Console.WriteLine("Alla besökarna går gratis.\n");
+            else Console.WriteLine("Alla besökarna går in gratis.\n");
         }
 
         private static void RepeatInput()
@@ -195,7 +195,7 @@ namespace Flow_Control
         private static void ThirdWord()
         {
             // Takes a user input as a sentence and prints
-            // the third word in that sentence.
+            // the third word in that sentence, skipping all spaces.
             string input = "";
             bool loop = true;
             do
@@ -203,15 +203,34 @@ namespace Flow_Control
                 Console.WriteLine("Vänligen ange en mening med minst tre ord.\n");
                 input = Console.ReadLine();
                 Console.WriteLine();
+                // Splits user input.
                 var words = input.Split(" ");
+                // Checks if user input is long enough.
                 if (words.Length < 3)
                 {
                     Console.WriteLine("Meningen innehöll färre än tre ord. ");
                 }
                 else
                 {
-                    loop = false;
-                    Console.WriteLine($"Det tredje ordet i meningen var: {words[2]}");
+                    // Creates a new string array and copies
+                    // over actual words.
+                    string[] newWords = new string[words.Length];
+                    int index = 0;
+                    for (int i = 0; i < words.Length; i++)
+                    {
+                        if (words[i].Length > 0)
+                        {
+                            newWords[index++] = words[i];
+                        }
+                    }
+                    // If 3 words or more have been successfully copied,
+                    // prints the third word.
+                    if (newWords[2] != null)
+                    {
+                        Console.WriteLine($"Det tredje ordet i meningen är: {newWords[2]}");
+                        loop = false;
+                    }
+                    else Console.WriteLine("Meningen innehöll färre än tre ord. ");
                 }
             } while (loop);
             Console.WriteLine();
