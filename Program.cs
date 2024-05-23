@@ -1,24 +1,4 @@
-﻿
-//c# övning - flöde via loopar och strängmanipulation
-//obs - resultatet av övningen skall visas för lärare och godkännas innan den kan anses vara genomförd.
-//övningen kan skrivas helt i programklassen med menyn i main-metoden.
-//huvudmeny
-//skapa en huvudmeny för programmet som håller det vid liv och informerar
-//användaren.
-//för att skapa programmets huvudmeny ska ni göra följande:
-//1.berätta för användaren att de har kommit till huvudmenyn och de kommer navigera
-//genom att skriva in siffror för att testa olika funktioner.
-//2. skapa skalet till en switch-sats som till en början har två cases. ett för ”0” som
-//stänger ner programmet och ett default som berättar att det är felaktig input.
-//3. skapa en oändlig iteration, alltså något som inte tar slut innan vi säger till att den
-//ska ta slut. detta löser ni med att skapa en egen bool med tillhörande while-loop.
-//4. bygg ut menyn med val att exekvera de övriga övningarna.
-
-
-
-
-
-namespace Flow_Control
+﻿namespace Flow_Control
 {
     internal class Program
     {
@@ -33,11 +13,10 @@ namespace Flow_Control
 
         private static bool MainMenu()
         {
-            Console.Clear();
-            Console.WriteLine("Welcome to the main menu.\n" +
-                "To select an option and test a function please type in a number.\n");
+            Console.WriteLine("Välkommen till huvudmenyn.\n" +
+                "Vänligen skriv in en siffra för att välja och testa en funktion.\n");
             string input = "";
-            input = Console.ReadLine();
+            input = Console.ReadLine()!;
             Console.WriteLine();
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -50,11 +29,18 @@ namespace Flow_Control
                 {
                     case Input.exit:
                         return false;
-                        break;
 
                     case Input.option1:
-                        
+                        PriceByAge();
                         break;
+
+                    case Input.option2:
+                        PriceForGroup();
+                        break;
+
+                    default:
+                        PrintFaultyInput();
+                        return true;
                 }
             }
             return true;
@@ -62,15 +48,64 @@ namespace Flow_Control
 
         private static void PrintFaultyInput()
         {
-            Console.WriteLine("Input not recognized, please try again.\n");
+            Console.WriteLine("Inmatningen kändes inte igen. Vänligen försök igen.\n");
         }
 
-        private static class Input
+        private struct Input
         {
             public const string exit = "0";
             public const string option1 = "1";
             public const string option2 = "2";
             public const string option3 = "3";
+        }
+
+        private static void PriceByAge()
+        {
+            bool loop = true;
+            Console.WriteLine("Vänligen skriv in biobesökarens ålder.\n");
+            do
+            {
+                if (int.TryParse(Console.ReadLine(), out var age))
+                {
+                    if (age < 0)
+                        Console.WriteLine("Ålder kan inte vara mindre än noll.");
+                    else
+                    {
+                        loop = false;
+                        if (age < 20)
+                        {
+                            Console.WriteLine("Ungdomspris: 80kr.");
+                        }
+                        else if (age > 64)
+                        {
+                            Console.WriteLine("Pensionärspris: 90kr.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Standardpris: 120kr.");
+                        }
+                    }
+                    Console.WriteLine();    
+                }
+                else PrintFaultyInput();
+            } while (loop);
+        }
+
+        private static void PriceForGroup()
+        {
+            Console.WriteLine("Vänligen skriv in antal biobesökare.\n");
+            bool loop = true;
+            do
+            {
+                if (int.TryParse(Console.ReadLine(), out var groupSize))
+                {
+                    if (groupSize < 0)
+                        Console.WriteLine("Antalet kan inte vara mindre än noll.");
+                    else loop = false;
+                    Console.WriteLine();
+                }
+                else PrintFaultyInput();
+            } while (loop);
         }
     }
 }
