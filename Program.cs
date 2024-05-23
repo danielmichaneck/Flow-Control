@@ -24,14 +24,16 @@ namespace Flow_Control
     {
         static void Main(string[] args)
         {
+            bool programRunning = true;
             do
             {
-                PrintMenu();
-            } while(true);
+                programRunning = MainMenu();
+            } while(programRunning);
         }
 
-        private static void PrintMenu()
+        private static bool MainMenu()
         {
+            Console.Clear();
             Console.WriteLine("Welcome to the main menu.\n" +
                 "To select an option and test a function please type in a number.\n");
             string input = "";
@@ -40,20 +42,35 @@ namespace Flow_Control
             if (string.IsNullOrWhiteSpace(input))
             {
                 PrintFaultyInput();
-                return;
+                return true;
             }
             else
             {
                 switch (input)
                 {
+                    case Input.exit:
+                        return false;
+                        break;
 
+                    case Input.option1:
+                        
+                        break;
                 }
             }
+            return true;
         }
 
         private static void PrintFaultyInput()
         {
             Console.WriteLine("Input not recognized, please try again.\n");
+        }
+
+        private static class Input
+        {
+            public const string exit = "0";
+            public const string option1 = "1";
+            public const string option2 = "2";
+            public const string option3 = "3";
         }
     }
 }
